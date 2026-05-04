@@ -5,7 +5,7 @@ async function getAllMessages() {
   return rows;
 }
 
-async function addUser({ firstName, lastName, username, password }) {
+async function addUser(firstName, lastName, username, password) {
   await pool.query(
     `INSERT INTO members (firstname, lastname, username, password, status) 
     VALUES ($1,$2,$3,$4,$5)`,

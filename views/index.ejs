@@ -6,6 +6,8 @@
     <a href="/sign-up"><h3>Sign-up</h3></a>
     <% if(messages.length === 0) {%>
         <h3>No messages to show</h3>
-    <% } %> 
+    <% } else {%>
+      <h3> <%- messages[0].username %></h3>
+    <% }%>
   </body>
 </html>

@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const signupController = require("../controller/signupController");
-const { body } = require("express-validator");
+const { body, validationResult, matchedData } = require("express-validator");
 
 const signupRouter = Router();
 
@@ -22,8 +22,8 @@ const validateUser = [
     .withMessage(`Last name ${lengthErr}`),
   body("username")
     .trim()
-    .isAlpha()
-    .withMessage(`Last name ${alphaErr}`)
+    .isAlphanumeric()
+    .withMessage(`Username must be alphanumeric`)
     .isLength({ min: 3, max: 15 })
     .withMessage(`Last name ${lengthErr}`),
   body("password")
@@ -38,30 +38,17 @@ const validateUser = [
     )
     .isLength({ min: 8, max: 20 })
     .withMessage("Password must be greater than 8 or less than 20"),
-  body("confirm-password").custom((value, req) => {
-    if (value !== req.body.password) {
-      throw new Error("Passwords do not match");
-    }
-    return true;
-  }),
 ];
 
 signupRouter.get("/sign-up", signupController.getSignup);
-signupRouter.post("/sign-up", validateUser, async (req, res) => {
-  console.log(req.body);
-  const errors = validationResult(req);
-  console.log("err= ", errors);
-  console.log(req.body);
-  if (!errors.isEmpty()) {
-    return res.status(400).render("signup", {
-      title: "Sign-Up",
-      errors: errors.array(),
-    });
-  }
-  const { firstName, lastName, username, password } = matchedData(req);
-  const hashedPassword = await bcrypt.hash(password, 10);
-  // await db.addUser({ firstName, lastName, username, hashedPassword });
-  res.redirect("/");
-});
+
+signupRouter.post(
+  "/sign-up",
+  validateUser,
+  body("confirmpassword").custom((value, { req }) => {
+    return value === req.body.password;
+  }),
+  signupController.postSignup,
+);
 
 module.exports = signupRouter;
