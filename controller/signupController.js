@@ -1,5 +1,4 @@
 const db = require("../db/queries");
-const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const { validationResult, matchedData } = require("express-validator");
 

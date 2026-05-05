@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const signupController = require("../controller/signupController");
-const { body, validationResult, matchedData } = require("express-validator");
+const { body } = require("express-validator");
 
 const signupRouter = Router();
 

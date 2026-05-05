@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+  <body>
+    <h2>Log-in</h2>
+    <form action="/login" method="POST">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        name="username"
+        required
+        minlength="3"
+        maxlength="30"
+      />
+      <label for="password">Password</label>
+      <input
+        type="password"
+        name="password"
+        required
+        minlength="8"
+        maxlength="30"
+      />
+      <button type="submit">Log-in</button>
+    </form>
+  </body>
+</html>
