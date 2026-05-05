@@ -1,11 +1,14 @@
 const { Router } = require("express");
 const signupController = require("../controller/signupController");
 const { body } = require("express-validator");
+const db = require("../db/queries");
 
 const signupRouter = Router();
 
 const alphaErr = "must only contain letters.";
 const lengthErr = "must be between 1 and 10 characters.";
+
+const usernames = db.getAllUsername();
 
 const validateUser = [
   body("firstname")
@@ -26,6 +29,7 @@ const validateUser = [
     .withMessage(`Username must be alphanumeric`)
     .isLength({ min: 3, max: 15 })
     .withMessage(`Last name ${lengthErr}`),
+
   body("password")
     .isStrongPassword({
       minLowercase: 1,
@@ -45,9 +49,16 @@ signupRouter.get("/sign-up", signupController.getSignup);
 signupRouter.post(
   "/sign-up",
   validateUser,
-  body("confirmpassword").custom((value, { req }) => {
-    return value === req.body.password;
-  }),
+  body("confirmpassword")
+    .custom((value, { req }) => {
+      return value === req.body.password;
+    })
+    .withMessage("Password does not match"),
+  body("username")
+    .custom((value) => {
+      return usernames.includes(value);
+    })
+    .withMessage("Username already exists"),
   signupController.postSignup,
 );
 

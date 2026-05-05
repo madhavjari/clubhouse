@@ -1,7 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
   <%- include("./partials/head.ejs") %>
-  <body>
-    <h2>Hello <%= user.firstname + " " + user.lastname %></h2>
+  <body class="page dashboard-page">
+    <header class="site-header dashboard-header">
+      <a class="brand" href="/">
+        <span class="brand-mark">M</span>
+        <span>Madhav's Club</span>
+      </a>
+      <nav class="nav-actions" aria-label="Dashboard actions">
+        <% if (user.status === 'None'){ %>
+          <a class="button button-soft" href="joinclub">Join the club</a>
+        <% } %>
+        <a class="button button-ghost" href="/log-out">Log out</a>
+      </nav>
+    </header>
+
+    <main class="dashboard-shell">
+      <section class="welcome-panel">
+        <div>
+          <p class="eyebrow">Member dashboard</p>
+          <h1>Hello, <%= user.firstname + " " + user.lastname %></h1>
+          <p>
+            Keep the club board fresh with a note, update, question, or tiny
+            victory worth sharing.
+          </p>
+        </div>
+        <button class="button button-primary message" type="button">
+          Create a message
+        </button>
+      </section>
+
+      <section class="dashboard-grid" aria-label="Club status">
+        <article class="stat-card">
+          <span class="stat-label">Membership</span>
+          <strong><%= user.status %></strong>
+          <p>Your current club access level.</p>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Username</span>
+          <strong><%= user.username %></strong>
+          <p>Your public name on the board.</p>
+        </article>
+        <article class="stat-card stat-card-accent">
+          <span class="stat-label">Next step</span>
+          <strong>Post a note</strong>
+          <p>Start a conversation with the members.</p>
+        </article>
+      </section>
+    </main>
+
+    <dialog class="modal">
+      <form class="form-stack modal-card" action="/messages" method="POST">
+        <div class="modal-heading">
+          <p class="eyebrow">New message</p>
+          <h2>Create a message</h2>
+        </div>
+        <div class="field">
+          <label for="title">Title</label>
+          <input
+            id="title"
+            name="title"
+            type="text"
+            required
+            minlength="2"
+            maxlength="100"
+          />
+        </div>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            required
+            maxlength="1000"
+            rows="6"
+          ></textarea>
+        </div>
+        <div class="modal-actions">
+          <button class="button button-ghost close-modal" type="button">
+            Cancel
+          </button>
+          <button class="button button-primary" type="submit">Save</button>
+        </div>
+      </form>
+    </dialog>
   </body>
+  <script>
+    const form = document.querySelector("dialog");
+    const messageButton = document.querySelector(".message");
+    const closeButton = document.querySelector(".close-modal");
+
+    messageButton.addEventListener("click", (event) => {
+      form.showModal();
+    });
+
+    closeButton.addEventListener("click", () => {
+      form.close();
+    });
+  </script>
 </html>

@@ -1,26 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
   <%- include("./partials/head.ejs") %>
-  <body>
-    <h2>Log-in</h2>
-    <form action="/login" method="POST">
-      <label for="username">Username</label>
-      <input
-        type="text"
-        name="username"
-        required
-        minlength="3"
-        maxlength="30"
-      />
-      <label for="password">Password</label>
-      <input
-        type="password"
-        name="password"
-        required
-        minlength="8"
-        maxlength="30"
-      />
-      <button type="submit">Log-in</button>
-    </form>
+  <body class="page auth-page">
+    <main class="auth-shell">
+      <section class="auth-card">
+        <a class="brand auth-brand" href="/">
+          <span class="brand-mark">M</span>
+          <span>Madhav's Club</span>
+        </a>
+        <div class="auth-heading">
+          <p class="eyebrow">Welcome back</p>
+          <h1>Log in</h1>
+          <p>Step back into the clubhouse and catch up with the room.</p>
+        </div>
+        <form class="form-stack" action="/login" method="POST">
+          <div class="field">
+            <label for="username">Username</label>
+            <input
+              id="username"
+              type="text"
+              name="username"
+              required
+              minlength="3"
+              maxlength="30"
+              autocomplete="username"
+            />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              required
+              minlength="8"
+              maxlength="30"
+              autocomplete="current-password"
+            />
+          </div>
+          <button class="button button-primary button-full" type="submit">
+            Log in
+          </button>
+        </form>
+        <p class="auth-switch">
+          New here? <a href="/sign-up">Create an account</a>
+        </p>
+      </section>
+    </main>
   </body>
 </html>

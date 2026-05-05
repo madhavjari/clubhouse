@@ -1,13 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-   <%- include("./partials/head.ejs") %>
-  <body>
-    <a href="/login"><h3>Log-in</h3></a>
-    <a href="/sign-up"><h3>Sign-up</h3></a>
-    <% if(messages.length === 0) {%>
-        <h3>No messages to show</h3>
-    <% } else {%>
-      <h3> <%- messages[0].username %></h3>
-    <% }%>
+  <%- include("./partials/head.ejs") %>
+  <body class="page page-home">
+    <header class="site-header">
+      <a class="brand" href="/">
+        <span class="brand-mark">M</span>
+        <span>Madhav's Club</span>
+      </a>
+      <nav class="nav-actions" aria-label="Account">
+        <a class="button button-ghost" href="/login">Log in</a>
+        <a class="button button-primary" href="/sign-up">Sign up</a>
+      </nav>
+    </header>
+
+    <main class="home-shell">
+      <section class="hero-panel">
+        <p class="eyebrow">Private members board</p>
+        <h1>Share notes with the people in your circle.</h1>
+        <p class="hero-copy">
+          A small, calm clubhouse for messages, membership, and conversations
+          that feel a little more personal than the open web.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="/sign-up">Become a member</a>
+          <a class="button button-soft" href="/login">I already belong</a>
+        </div>
+      </section>
+
+      <section class="message-preview" aria-label="Latest messages">
+        <div class="section-heading">
+          <p class="eyebrow">Club feed</p>
+          <h2>Latest note</h2>
+        </div>
+        <% if(messages.length === 0) {%>
+          <div class="empty-state">
+            <span class="empty-icon">+</span>
+            <h3>No messages yet</h3>
+            <p>Sign in and start the first conversation.</p>
+          </div>
+        <% } else {%>
+          <article class="message-card">
+            <div class="avatar"><%- messages[0].username.charAt(0).toUpperCase() %></div>
+            <div>
+              <p class="message-author"><%- messages[0].username %></p>
+              <p class="message-body">A member has joined the board.</p>
+            </div>
+          </article>
+        <% }%>
+      </section>
+    </main>
   </body>
 </html>

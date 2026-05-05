@@ -1,51 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
   <%- include("./partials/head.ejs") %>
-  <body>
-    <h2>Sign-up</h2>
-    <%- include("./partials/errors.ejs") %>
-    <form action="/sign-up" method="POST">
-      <label for="firstname">First Name</label>
-      <input
-        type="text"
-        required
-        minlength="3"
-        maxlength="30"
-        name="firstname"
-      />
-      <label for="lastname">Last Name</label>
-      <input
-        type="text"
-        required
-        minlength="3"
-        maxlength="30"
-        name="lastname"
-      />
-      <label for="username">Username</label>
-      <input
-        type="text"
-        required
-        minlength="3"
-        maxlength="30"
-        name="username"
-      />
-      <label for="password">Password</label>
-      <input
-        type="password"
-        required
-        minlength="8"
-        maxlength="30"
-        name="password"
-      />
-      <label for="confirm-password">Confirm Password</label>
-      <input
-        type="password"
-        required
-        minlength="8"
-        maxlength="30"
-        name="confirmpassword"
-      />
-      <button type="submit">Sign-up</button>
-    </form>
+  <body class="page auth-page">
+    <main class="auth-shell auth-shell-wide">
+      <section class="auth-card">
+        <a class="brand auth-brand" href="/">
+          <span class="brand-mark">M</span>
+          <span>Madhav's Club</span>
+        </a>
+        <div class="auth-heading">
+          <p class="eyebrow">Join the room</p>
+          <h1>Sign up</h1>
+          <p>Create your member profile and start posting with the club.</p>
+        </div>
+        <%- include("./partials/errors.ejs") %>
+        <form class="form-stack form-grid" action="/sign-up" method="POST">
+          <div class="field">
+            <label for="firstname">First name</label>
+            <input
+              id="firstname"
+              type="text"
+              required
+              minlength="3"
+              maxlength="30"
+              name="firstname"
+              autocomplete="given-name"
+            />
+          </div>
+          <div class="field">
+            <label for="lastname">Last name</label>
+            <input
+              id="lastname"
+              type="text"
+              required
+              minlength="3"
+              maxlength="30"
+              name="lastname"
+              autocomplete="family-name"
+            />
+          </div>
+          <div class="field field-full">
+            <label for="username">Username</label>
+            <input
+              id="username"
+              type="text"
+              required
+              minlength="3"
+              maxlength="30"
+              name="username"
+              autocomplete="username"
+            />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              required
+              minlength="8"
+              maxlength="30"
+              name="password"
+              autocomplete="new-password"
+            />
+          </div>
+          <div class="field">
+            <label for="confirm-password">Confirm password</label>
+            <input
+              id="confirm-password"
+              type="password"
+              required
+              minlength="8"
+              maxlength="30"
+              name="confirmpassword"
+              autocomplete="new-password"
+            />
+          </div>
+          <button class="button button-primary button-full field-full" type="submit">
+            Sign up
+          </button>
+        </form>
+        <p class="auth-switch">
+          Already a member? <a href="/login">Log in</a>
+        </p>
+      </section>
+    </main>
   </body>
 </html>

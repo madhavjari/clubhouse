@@ -13,4 +13,9 @@ async function addUser(firstName, lastName, username, password) {
   );
 }
 
-module.exports = { getAllMessages, addUser };
+async function getAllUsername() {
+  const { rows } = await pool.query(`SELECT username FROM members`);
+  return rows;
+}
+
+module.exports = { getAllMessages, addUser, getAllUsername };

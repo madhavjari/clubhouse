@@ -23,6 +23,15 @@ app.use(indexRouter);
 app.use(signupRouter);
 app.use(loginRouter);
 app.use(dashboardRouter);
+app.get("/log-out", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
+
 app.listen(PORT, (error) => {
   if (error) {
     throw error;
