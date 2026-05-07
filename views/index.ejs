@@ -40,10 +40,10 @@
           </div>
         <% } else {%>
           <article class="message-card">
-            <div class="avatar"><%- messages[0].username.charAt(0).toUpperCase() %></div>
+            <div class="avatar"><%= messages[0].firstname.charAt(0) %></div>
             <div>
-              <p class="message-author"><%- messages[0].username %></p>
-              <p class="message-body">A member has joined the board.</p>
+              <p class="message-author"><%= messages[0].firstname %></p>
+              <p class="message-body"><%= messages[0].timestamp.slice(0,10) %></p>
             </div>
           </article>
         <% }%>

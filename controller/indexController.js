@@ -2,7 +2,7 @@ const db = require("../db/queries");
 
 async function getHomePage(req, res) {
   const messages = await db.getAllMessages();
-  console.log(req.isAuthenticated());
+  console.log(messages);
   if (req.isAuthenticated()) {
     return res.render("dashboard", {
       title: "Madhav's Club",
