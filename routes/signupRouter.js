@@ -6,9 +6,7 @@ const db = require("../db/queries");
 const signupRouter = Router();
 
 const alphaErr = "must only contain letters.";
-const lengthErr = "must be between 1 and 10 characters.";
-
-const usernames = db.getAllUsername();
+const lengthErr = "must be between 1 and 15 characters.";
 
 const validateUser = [
   body("firstname")
@@ -28,7 +26,7 @@ const validateUser = [
     .isAlphanumeric()
     .withMessage(`Username must be alphanumeric`)
     .isLength({ min: 3, max: 15 })
-    .withMessage(`Last name ${lengthErr}`),
+    .withMessage(`Username ${lengthErr}`),
 
   body("password")
     .isStrongPassword({
@@ -55,8 +53,10 @@ signupRouter.post(
     })
     .withMessage("Password does not match"),
   body("username")
-    .custom((value) => {
-      return usernames.includes(value);
+    .custom(async (value) => {
+      const exists = await db.findUsername(value);
+      console.log(exists);
+      return !exists;
     })
     .withMessage("Username already exists"),
   signupController.postSignup,

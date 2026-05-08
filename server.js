@@ -5,6 +5,7 @@ const loginRouter = require("./routes/loginRouter");
 const dashboardRouter = require("./routes/dashboardRouter");
 const messageRouter = require("./routes/messageRouter");
 const joinclubRouter = require("./routes/joinclubRouter");
+const deleteRouter = require("./routes/deleteMessageRouter");
 const app = express();
 const passport = require("passport");
 const session = require("express-session");
@@ -27,6 +28,7 @@ app.use(loginRouter);
 app.use(dashboardRouter);
 app.use(messageRouter);
 app.use(joinclubRouter);
+app.use(deleteRouter);
 app.get("/log-out", (req, res, next) => {
   req.logout((err) => {
     if (err) {

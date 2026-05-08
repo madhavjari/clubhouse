@@ -8,7 +8,7 @@
         <span>Madhav's Club</span>
       </a>
       <nav class="nav-actions" aria-label="Dashboard actions">
-        <% if (user.status === 'None'){ %>
+        <% if (status === 'None'){ %>
           <a class="button button-soft" href="/joinclub">Join the club</a>
         <% } %>
         <a class="button button-ghost" href="/log-out">Log out</a>
@@ -33,7 +33,7 @@
       <section class="dashboard-grid" aria-label="Club status">
         <article class="stat-card">
           <span class="stat-label">Membership</span>
-          <strong><%= user.status %></strong>
+          <strong><%= status %></strong>
           <p>Your current club access level.</p>
         </article>
         <article class="stat-card">
@@ -42,26 +42,99 @@
           <p>Your public name on the board.</p>
         </article>
         <article class="stat-card stat-card-accent">
-          <span class="stat-label">Next step</span>
-          <strong>Post a note</strong>
-          <p>Start a conversation with the members.</p>
-        </article>
-        <h2>Members Messages</h2>
-        <article class="message-card">
-          <% messages.forEach((message) =>{ %>
-            <div>
-              <div class="avatar"><%= message.firstname.charAt(0) %></div>
-              <div class="message-author"><%= message.message %></div>
-            </div>
-          <% }) %>
+          <span class="stat-label">Club notes</span>
+          <strong><%= messages.length %></strong>
+          <p><%= messages.length === 1 ? "Message" : "Messages" %> on the board.</p>
         </article>
       </section>
+
+      <section class="feed-panel" aria-label="Members messages">
+        <div class="feed-heading">
+          <div>
+            <p class="eyebrow">Members messages</p>
+            <h2>Club board</h2>
+          </div>
+          <% if (status === 'Admin') { %>
+            <span class="role-pill">Admin tools enabled</span>
+          <% } else if (status === 'Member') { %>
+            <span class="role-pill">Member view</span>
+          <% } else { %>
+            <span class="role-pill">Preview view</span>
+          <% } %>
+        </div>
+
+        <% if(messages.length === 0){ %>
+          <div class="empty-state board-empty">
+            <span class="empty-icon">+</span>
+            <h3>No messages yet</h3>
+            <p>Create the first note for the clubhouse.</p>
+          </div>
+        <% } else { %>
+          <div class="feed-list">
+            <% messages.forEach((message) =>{ %>
+              <article class="message-card message-card-full">
+                <% if(status === 'Member' || status === 'Admin') { %>
+                  <div class="avatar"><%= message.firstname.charAt(0).toUpperCase() %></div>
+                <% } else { %>
+                  <div class="avatar anonymous-avatar">#</div>
+                <% } %>
+                <div class="message-content">
+                  <% if(status === 'Member' || status === 'Admin') { %>
+                    <div class="message-meta">
+                      <strong><%= message.firstname + " " + message.lastname %></strong>
+                      <span><%= message.timestamp ? String(message.timestamp).slice(0, 10) : "" %></span>
+                    </div>
+                  <% } %>
+                  <p class="message-body"><%= message.message %></p>
+                </div>
+                <% if (status === 'Admin') { %>
+                  <button
+                    class="icon-button delete-button"
+                    type="button"
+                    aria-label="Delete message"
+                    data-dialog="delete-<%= message.message_id %>"
+                  >
+                    x
+                  </button>
+                  <dialog class="delete-modal" id="delete-<%= message.message_id %>">
+                    <form
+                      class="modal-card delete-card"
+                      action="/delete/<%= message.message_id %>"
+                      method="post"
+                    >
+                      <div class="modal-heading">
+                        <p class="eyebrow">Confirm delete</p>
+                        <h2>Delete this message?</h2>
+                      </div>
+                      <p class="message-body">
+                        This removes the note from the club board.
+                      </p>
+                      <div class="modal-actions">
+                        <button
+                          class="button button-ghost delete-close-modal"
+                          type="button"
+                        >
+                          Cancel
+                        </button>
+                        <button class="button button-danger" type="submit">
+                          Delete
+                        </button>
+                      </div>
+                    </form>
+                  </dialog>
+                <% } %>
+              </article>
+            <% }) %>
+          </div>
+        <% } %>
+      </section>
     </main>
+
 
     <dialog class="modal">
       <form
         class="form-stack modal-card"
-        action="/messages/<%= user.id %>"
+        action="/messages"
         method="POST"
       >
         <div class="modal-heading">
@@ -99,16 +172,31 @@
     </dialog>
   </body>
   <script>
-    const form = document.querySelector("dialog");
+    const messageForm = document.querySelector(".modal");
     const messageButton = document.querySelector(".message");
     const closeButton = document.querySelector(".close-modal");
+    const deleteButtons = document.querySelectorAll(".delete-button");
+    const deleteCloseButtons = document.querySelectorAll(".delete-close-modal");
+
+    deleteButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const dialog = document.getElementById(button.dataset.dialog);
+        dialog.showModal();
+      });
+    });
+
+    deleteCloseButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        button.closest("dialog").close();
+      });
+    });
 
     messageButton.addEventListener("click", (event) => {
-      form.showModal();
+      messageForm.showModal();
     });
 
     closeButton.addEventListener("click", () => {
-      form.close();
+      messageForm.close();
     });
   </script>
 </html>

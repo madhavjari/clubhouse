@@ -16,7 +16,7 @@ async function postJoinClub(req, res) {
   }
 
   if (
-    req.body.secret !== process.env.CLUB_PASSWORD ||
+    req.body.secret !== process.env.CLUB_PASSWORD &&
     req.body.secret !== process.env.ADMIN_PASSWORD
   ) {
     return res.status(400).render("joinclub", {
