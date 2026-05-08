@@ -1,7 +1,7 @@
 const pool = require("./pool");
 
 async function getAllMessages() {
-  const { rows } = await pool.query(`SELECT firstname,timestamp 
+  const { rows } = await pool.query(`SELECT firstname,timestamp, message 
     FROM messages JOIN members ON
     messages.member_id = members.id`);
   return rows;
@@ -29,4 +29,17 @@ async function addMessage(messageData, timeStamp, memberId) {
   );
 }
 
-module.exports = { getAllMessages, addUser, getAllUsername, addMessage };
+async function updateMemberStatus(memberId, status) {
+  await pool.query("UPDATE members SET status = $1 WHERE id = $2", [
+    status,
+    memberId,
+  ]);
+}
+
+module.exports = {
+  getAllMessages,
+  addUser,
+  getAllUsername,
+  addMessage,
+  updateMemberStatus,
+};

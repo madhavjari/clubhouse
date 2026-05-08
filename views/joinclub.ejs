@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+  <body class="page auth-page">
+    <main class="auth-shell">
+      <section class="auth-card">
+        <a class="brand auth-brand" href="/">
+          <span class="brand-mark">M</span>
+          <span>Madhav's Club</span>
+        </a>
+        <div class="auth-heading">
+          <p class="eyebrow">Members only</p>
+          <h1>Join the club</h1>
+          <p>Enter the secret password to unlock member access.</p>
+        </div>
+        <% if (locals.error) { %>
+          <p class="form-error"><%= error %></p>
+        <% } %>
+        <form class="form-stack" action="/joinclub" method="post">
+          <div class="field">
+            <label for="secret">Secret password</label>
+            <input
+              id="secret"
+              name="secret"
+              type="password"
+              maxlength="20"
+              required
+              autocomplete="off"
+            />
+          </div>
+          <button class="button button-primary button-full" type="submit">
+            Join
+          </button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

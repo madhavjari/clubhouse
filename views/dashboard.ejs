@@ -9,7 +9,7 @@
       </a>
       <nav class="nav-actions" aria-label="Dashboard actions">
         <% if (user.status === 'None'){ %>
-          <a class="button button-soft" href="joinclub">Join the club</a>
+          <a class="button button-soft" href="/joinclub">Join the club</a>
         <% } %>
         <a class="button button-ghost" href="/log-out">Log out</a>
       </nav>
@@ -46,11 +46,24 @@
           <strong>Post a note</strong>
           <p>Start a conversation with the members.</p>
         </article>
+        <h2>Members Messages</h2>
+        <article class="message-card">
+          <% messages.forEach((message) =>{ %>
+            <div>
+              <div class="avatar"><%= message.firstname.charAt(0) %></div>
+              <div class="message-author"><%= message.message %></div>
+            </div>
+          <% }) %>
+        </article>
       </section>
     </main>
 
     <dialog class="modal">
-      <form class="form-stack modal-card" action="/<%= user.id %>" method="POST">
+      <form
+        class="form-stack modal-card"
+        action="/messages/<%= user.id %>"
+        method="POST"
+      >
         <div class="modal-heading">
           <p class="eyebrow">New message</p>
           <h2>Create a message</h2>
